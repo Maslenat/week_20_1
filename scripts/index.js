@@ -152,7 +152,7 @@ const generateCard = (data) => {
         rating_items.appendChild(label);
         input.addEventListener("input", toggleLike);
 
-        //проверка на наличие id в массиве localStorage и чекаем этот инпут 
+        //проверка на наличие id в массиве localStorage и отмечаем этот инпут 
         favouriteCollection.forEach(element => {
             if (element.id == id_hero) input.checked = "checked";
         })
