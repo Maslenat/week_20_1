@@ -1,4 +1,4 @@
-let favouriteCollection=[];
+let favouriteCollection = [];
 const superHeroesJSON = `[
     {
       "name": "Batman",
@@ -61,18 +61,18 @@ const superHeroesJSON = `[
         "abilities":"высокий болевой порог, регенерация и бессмертие, сверхчеловеческая иммунная система"
     }
   ]`;
-  
+
 function getHeroes() {
-    
+
     const superHeroes = JSON.parse(superHeroesJSON);
 
     const collection = localStorage.getItem("favouriteCollection");
-    if(collection){
+    if (collection) {
         favouriteCollection = JSON.parse(localStorage.getItem("favouriteCollection"));
-    }   
+    }
 
-    for (let i = 0; i < superHeroes.length; i++){
-         generateCard(superHeroes[i]);
+    for (let i = 0; i < superHeroes.length; i++) {
+        generateCard(superHeroes[i]);
     }
 }
 
@@ -83,14 +83,14 @@ function getHeroes() {
 
 const generateCard = (data) => {
 
-  
+
     let container = document.createElement('div');
     container.classList.add("container");
     document.getElementById('wrapper').appendChild(container);
 
     let card__image = document.createElement('img');
     card__image.classList.add("img");
-    card__image.src =data.url;
+    card__image.src = data.url;
     container.appendChild(card__image);
 
     let div__description = document.createElement('div')
@@ -133,42 +133,57 @@ const generateCard = (data) => {
     let rating_items = document.createElement('div');
     rating_items.classList.add("rating-items");
     rating.appendChild(rating_items);
-   
+
 
     for (let i = 0; i < 10; i++) {
 
-        let id_hero = data.name + i+1;
+        let id_hero = data.name + i + 1;
         let input = document.createElement("input")
         input.classList.add("rating-item");
         input.setAttribute("type", "radio");
-        input.setAttribute("value", i+1);
+        input.setAttribute("value", i + 1);
         input.id = id_hero;
-        input.setAttribute("name",data.name);
+        input.setAttribute("name", data.name);
         rating_items.appendChild(input);
         let label = document.createElement('label');
-        label.setAttribute("for",data.name);
+        label.setAttribute("for", data.name);
         label.classList.add("rating-label");
-        label.innerText=i+1;
+        label.innerText = i + 1;
         rating_items.appendChild(label);
         input.addEventListener("input", toggleLike);
 
+        //проверка на наличие id в массиве localStorage и чекаем этот инпут 
+        favouriteCollection.forEach(element => {
+            if (element.id == id_hero) input.checked = "checked";
+        })
     }
-   }
 
-function toggleLike(event){
-    let someFavour=[];
-    let nameInput=event.target.name;
-    let idInput=event.target.id;
-    if(favouriteCollection.length==0)
-    favouriteCollection.push({name:nameInput,id:idInput});
- else{
- someFavour = favouriteCollection.filter(item => item.name == nameInput);
-       if(someFavour.length==0) 
-           favouriteCollection.push({name:nameInput,id:idInput});
-     
-       else
-         favouriteCollection.find(item => {if(item.name == nameInput) item.id=idInput;}); 
 }
+/* функция добавления отмеченного инпута(оценка) в массив и сохраннение его в Локал
+если массив пустой просто пушим , если нет то фильтруем есть ли в нем уже объект с аналогичным именем если есть нет (массив=0) то опять просто пушим а если есть то меняем ему значение id  */ 
+function toggleLike(event) {
+    let someFavour = [];
+    let nameInput = event.target.name;
+    let idInput = event.target.id;
+   
+    if (favouriteCollection.length == 0)
+        favouriteCollection.push({
+            name: nameInput,
+            id: idInput
+        });
+    else {
+        someFavour = favouriteCollection.filter(item => item.name == nameInput);
+        if (someFavour.length == 0)
+            favouriteCollection.push({
+                name: nameInput,
+                id: idInput
+            });
+
+        else
+            favouriteCollection.find(item => {
+                if (item.name == nameInput) item.id = idInput;
+            });
+    }
 
 
     localStorage.setItem("favouriteCollection", JSON.stringify(favouriteCollection));
@@ -177,12 +192,6 @@ function toggleLike(event){
 
 
 
-addEventListener("DOMContentLoaded", function(){getHeroes()});
-
-
-    
-    
-
-
-      
-    
+addEventListener("DOMContentLoaded", function () {
+    getHeroes()
+});
