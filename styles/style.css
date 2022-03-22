@@ -1,0 +1,33 @@
+.container {
+    margin: 10px auto;
+    display: grid;
+    gap: 5px;
+    justify-content: center;
+    justify-items: center;
+    background-color: lightgrey;
+    max-width: 400px;
+    height: 650px;
+    padding: 10px;
+
+
+}
+
+.container_description {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    justify-content: center;
+    justify-items: start;
+    gap: 5px;
+    font-size: 1em;
+}
+
+.img {
+    max-width: 100%;
+}
+
+
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
